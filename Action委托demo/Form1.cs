@@ -16,10 +16,18 @@ namespace Action委托demo
         //delegate void DisplayMessage(string message);//使用delegate方法 示例一
         //public delegate void ShowValue();//使用delegate方法 示例三
         delegate int del(int i);//示例四
+        delegate void TestDelegate(string s);//示例七
+
         public Form1()
         {
-         
+            
             InitializeComponent();
+            /*示例八 额外示例*/
+            button9.Click += async (sender, e) =>
+            {
+                await ExampleMethodAsync();
+                textBox1.Text += sender.ToString();
+            };    
         }
         #region 示例一
         private void button1_Click(object sender, EventArgs e)
@@ -78,6 +86,7 @@ namespace Action委托demo
             showMethod2();
         }
         #endregion
+
         #region 示例四 Lambda表达式
         private void button4_Click(object sender, EventArgs e)
         {
@@ -109,17 +118,51 @@ namespace Action委托demo
             ParameterExpression pe1 = Expression.Parameter(typeof(int), "x");
             ParameterExpression pe2 = Expression.Parameter(typeof(int), "y");
             ParameterExpression pe3 = Expression.Parameter(typeof(int), "z");
-            var body = Expression.Divide(Expression.Add(pe1, pe2), pe3);
-            var w = Expression.Lambda<Func<int, int, int, int>>(body, new ParameterExpression[] { pe1, pe2, pe3 });
+            var body = Expression.Divide(Expression.Add(pe1, pe2), pe3);//先创建一个表达式树 加法，再创建一个表达式树除法，作为一个抽象型的 （a+b）/c的形式
+            var w = Expression.Lambda<Func<int, int, int, int>>(body, new ParameterExpression[] { pe1, pe2, pe3 });//根据body生成一个表达式树，并填入参数
             Console.WriteLine(w.Compile()(1, 2, 3));
+
             List<Entity> list = new List<Entity> { new Entity { Id1 = 1 }, new Entity { Id1 = 2 }, new Entity { Id1 = 3 } };
-            var d = list.AsQueryable().WhereIn(o => o.Id1, new int[] { 1, 2 });
+            var d = list.AsQueryable().WhereIn(o => o.Id1, new int[] { 1, 2,3 });
             d.ToList().ForEach(o =>
             {
                 Console.WriteLine(o.Id1);
             });
         }
         #endregion
+
+        #region 示例七
+        private void button7_Click(object sender, EventArgs e)
+        {
+            TestDelegate myDel = n =>
+            { 
+                string s = n + " " + "World"; 
+                Console.WriteLine(s); 
+            };
+            myDel("Hello");
+        }
+        #endregion
+
+        #region 示例八 异步
+        private async void button8_Click(object sender, EventArgs e)
+        {
+            await ExampleMethodAsync();
+            textBox1.Text = sender.ToString();
+        }
+        async Task ExampleMethodAsync()
+        {
+            // The following line simulates a task-returning asynchronous process.
+            await Task.Delay(1000);
+        }
+        #endregion
+
+        private void button10_Click(object sender, EventArgs e)
+        {
+            int[] numbers = { 5, 4, 1, 3, 9, 8, 6, 7, 2, 0 };
+            var oddNumbers = numbers.Where(x => x > 5);
+            var result = oddNumbers.TakeWhile((x, index) => x >= index);
+        }
+
 
     }
 
@@ -173,6 +216,4 @@ namespace Action委托demo
             return Expression.Lambda<Func<TElement, bool>>(body, p);
         }
     }
-
-
 }

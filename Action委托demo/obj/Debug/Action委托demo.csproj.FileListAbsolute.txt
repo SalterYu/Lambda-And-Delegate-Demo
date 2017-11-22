@@ -1,7 +1,6 @@
 D:\MyDemo\Action委托demo\Action委托demo\bin\Debug\Action委托demo.exe.config
 D:\MyDemo\Action委托demo\Action委托demo\bin\Debug\Action委托demo.exe
 D:\MyDemo\Action委托demo\Action委托demo\bin\Debug\Action委托demo.pdb
-D:\MyDemo\Action委托demo\Action委托demo\obj\Debug\Action委托demo.csprojResolveAssemblyReference.cache
 D:\MyDemo\Action委托demo\Action委托demo\obj\Debug\Action委托demo.Form1.resources
 D:\MyDemo\Action委托demo\Action委托demo\obj\Debug\Action委托demo.Properties.Resources.resources
 D:\MyDemo\Action委托demo\Action委托demo\obj\Debug\Action委托demo.csproj.GenerateResource.Cache
